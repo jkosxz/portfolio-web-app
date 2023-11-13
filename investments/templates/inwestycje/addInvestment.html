@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj Inwestycję</title>
+</head>
+<body>
+    <h1>Dodaj Inwestycję</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="nazwa">Nazwa inwestycji:</label>
+        <input type="text" name="nazwa" required><br><br>
+        <label for="ilosc">Ilość:</label>
+        <input type="number" step="any" name="ilosc" required><br><br>
+        <input type="submit" value="Dodaj">
+    </form>
+</body>
+</html>
