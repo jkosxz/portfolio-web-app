@@ -139,3 +139,6 @@ GitHub.sublime-settings
 # Project
 .venv
 .investments/__pycache__
+investments/secrets/*
+.idea
+investments/migrations/**
