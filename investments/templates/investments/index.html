@@ -1,13 +1,41 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
-    <h1>My portfolio</h1>
-    <ul>`
-    </ul>
-    <a href="{% url 'add_investment' %}">Add investment</a>
-    <a href="{% url 'del_investment' %}">Delete investment</a>
-</body>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if user.is_authenticated %}
+      {% if user.is_superuser %}
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'add_investment' %}">Add investment</a>
+        </li>
+      {%endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'del_investment' %}">Delete investment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+
+      {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
 </html>
+
