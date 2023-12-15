@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Investment
+from .api_utils.api_fetcher import get_all_symbols
 
 
 def index(request):
@@ -29,3 +30,7 @@ def del_investment(request):
             return render(request, 'investments/delInvestment.html', {'error_message': error_message})
         return redirect('index')
     return render(request, 'investments/delInvestment.html')
+
+
+def show_all_assets(request):
+    return render(request, 'htmls/show_assets.html', {'assets': get_all_symbols()})
