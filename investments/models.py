@@ -14,10 +14,11 @@ class Investment(models.Model):
     name = models.CharField(max_length=100)
     symbol = models.ForeignKey(Asset, on_delete=models.CASCADE)
     amount = models.FloatField()
+    price_bought = models.FloatField()
     type = models.CharField(max_length=100)
 
     def __str__(self):
-        return str(self.amount)
+        return str(self.name + " " + str(self.amount) + " " + str(self.price_bought))
 
 
 class Portfolio(models.Model):

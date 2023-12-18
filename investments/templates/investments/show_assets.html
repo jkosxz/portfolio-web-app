@@ -1,0 +1,25 @@
+{% extends 'investments/index.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>All assets</h1>
+<div>
+<form action="/insert_assets">
+    <button id="btn_insert_assets" class="button">Refresh assets</button>
+</form>
+<br>
+<form action="/delete_assets">
+    <button id="btn_insert_assets" class="button">Delete all assets</button>
+</form>
+    {% for asset in assets %}
+        <p>{{ asset.name }} {{ asset.symbol }}</p>
+    {% endfor %}
+</div>
+{% else %}
+    <br> You must be logged in
+
+{% endif %}
+
+
+{% endblock %}

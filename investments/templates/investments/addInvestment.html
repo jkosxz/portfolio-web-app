@@ -5,15 +5,21 @@
 {% if user.is_authenticated %}
     <h1>Add Investment</h1>
 <div>
-    <form action="" method="POST">
+    <form action="/add_investment" method="POST">
         {% csrf_token %}
         <label>
             <br> Name
             <input type="text" name="inv_name">
+            <br> Symbol
+            <input type="text" name="inv_symbol">
             <br> Amount
-            <input type="number"  class="inv_amount">
+            <input type="number" name="inv_amount">
+            <br> Purchase price
+            <input type="number" name="inv_price">
             <br>
-            <input type="submit" class="inv_submit">
+            <br> Type
+            <input type="text" name="inv_type">
+            <input type="submit" value="Submit" name="inv_submit">
         </label>
     </form>
 

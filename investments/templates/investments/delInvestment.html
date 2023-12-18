@@ -8,7 +8,7 @@
     <form action="" method="POST">
         {% csrf_token %}
         {% for investment in investments %}
-            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+            <li><a href="{{ investment.name }}">{{ investment.amount }}</a></li>
         {% endfor %}
     </form>
 
