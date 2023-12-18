@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My portfolio</title>
-</head>
-<body>
-    <h1>Dodaj Inwestycję</h1>
-    <form method="POST">
+{% extends 'investments/index.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Add Investment</h1>
+<div>
+    <form action="" method="POST">
         {% csrf_token %}
-        <label for="name">Investment name</label>
-        <input type="text" name="name" required><br><br>
-        <label for="amount">Amount:</label>
-        <input type="number" step="any" name="amount" required><br><br>
-        <input type="submit" value="Add">
+        <label>
+            <br> Name
+            <input type="text" name="inv_name">
+            <br> Amount
+            <input type="number"  class="inv_amount">
+            <br>
+            <input type="submit" class="inv_submit">
+        </label>
     </form>
-</body>
-</html>
+
+</div>
+{% else %}
+    <br> You must be logged in
+
+{% endif %}
+
+{% endblock %}
