@@ -2,83 +2,51 @@ from django.conf import settings
 from django.db import models
 
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager
+    AbstractUser, BaseUserManager
 )
 
-# send_mail(subject, message, from_email, recipient_list, html_message)
 
-DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
+class CustomUserManager(BaseUserManager):
+    """
+    Custom user model manager where email is the unique identifiers
+    for authentication instead of usernames.
+    """
 
-
-class UserManager(BaseUserManager):
-    def create_user(self, email, full_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email, password, **extra_fields):
+        """
+        Create and save a user with the given email and password.
+        """
         if not email:
-            raise ValueError("Users must have an email address")
-        if not password:
-            raise ValueError("Users must have a password")
-        user_obj = self.model(
-            email=self.normalize_email(email),
-            full_name=full_name
-        )
-        user_obj.set_password(password)  # change user password
-        user_obj.staff = is_staff
-        user_obj.admin = is_admin
-        user_obj.is_active = is_active
-        user_obj.save(using=self._db)
-        return user_obj
-
-    def create_staffuser(self, email, full_name=None, password=None):
-        user = self.create_user(
-            email,
-            full_name=full_name,
-            password=password,
-            is_staff=True
-        )
+            raise ValueError(_("The Email must be set"))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
         return user
 
-    def create_superuser(self, email, full_name=None, password=None):
-        user = self.create_user(
-            email,
-            full_name=full_name,
-            password=password,
-            is_staff=True,
-            is_admin=True
-        )
-        return user
+    def create_superuser(self, email, password, **extra_fields):
+        """
+        Create and save a SuperUser with the given email and password.
+        """
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+        return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
-    email = models.EmailField(max_length=255, unique=True)
-    full_name = models.CharField(max_length=255, blank=True, null=True)
-    is_active = models.BooleanField(default=True)  # can login
-    staff = models.BooleanField(default=False)  # staff user non superuser
-    admin = models.BooleanField(default=False)  # superuser
-    timestamp = models.DateTimeField(auto_now_add=True)
+class User(AbstractUser):
+    username = None
+    email = models.EmailField("email address", unique=True)
 
-    USERNAME_FIELD = 'email'  # username
-    # USERNAME_FIELD and password are required by default
-    REQUIRED_FIELDS = []  # ['full_name'] #python manage.py createsuperuser
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.email
-
-    def get_full_name(self):
-        if self.full_name:
-            return self.full_name
-        return self.email
-
-    def get_short_name(self):
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-
-    @property
-    def is_admin(self):
-        return self.admin
-

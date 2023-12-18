@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Investment, Asset
 from investments.api_utils.api_fetcher import get_all_symbols
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 
 def insert_assets(request):
@@ -33,8 +34,9 @@ def add_investment(request):
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
+        user = User.objects.get(username=request.user.username)
 
-        Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price, type=type)
+        Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price, type=type, user=user)
         return redirect('index')
     return render(request, 'investments/addInvestment.html')
 
