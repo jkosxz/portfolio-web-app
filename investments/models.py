@@ -17,6 +17,7 @@ class Investment(models.Model):
     amount = models.FloatField()
     price_bought = models.FloatField()
     type = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, default="")
 
 
     def __str__(self):

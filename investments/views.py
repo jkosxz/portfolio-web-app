@@ -34,9 +34,11 @@ def add_investment(request):
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
+        print(request.user.username)
         user = User.objects.get(username=request.user.username)
 
-        Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price, type=type, user=user)
+        Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price,
+                                  type=type, username=request.user.username)
         return redirect('index')
     return render(request, 'investments/addInvestment.html')
 
