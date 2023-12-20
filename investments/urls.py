@@ -8,5 +8,6 @@ urlpatterns = [
     path('show_all_assets', views.show_all_assets, name='show_all_assets'),
     path('show_users_investments', views.show_users_investments, name='show_users_investments'),
     path('insert_assets', views.insert_assets),
-    path('delete_assets', views.delete_assets)
+    path('delete_assets', views.delete_assets),
+    path('show_specific_investment', views.show_specific_investment, name='show_specific_investment')
 ]

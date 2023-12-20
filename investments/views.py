@@ -68,3 +68,8 @@ def show_users_investments(request):
     investments = Investment.objects.filter(username=request.user.username)
 
     return render(request, 'investments/show_users_investments.html', {'investments': investments})
+
+
+def show_specific_investment(request):
+    investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
+    return render(request, 'investments/show_users_investments.html', {'investments': [investment]})
