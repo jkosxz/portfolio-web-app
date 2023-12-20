@@ -62,3 +62,9 @@ def show_all_assets(request):
     assets = Asset.objects.all()
 
     return render(request, 'investments/show_assets.html', {'assets': assets})
+
+
+def show_users_investments(request):
+    investments = Investment.objects.filter(username=request.user.username)
+
+    return render(request, 'investments/show_users_investments.html', {'investments': investments})

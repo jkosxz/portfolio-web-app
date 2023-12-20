@@ -12,9 +12,18 @@
 <form action="/delete_assets">
     <button id="btn_insert_assets" class="button">Delete all assets</button>
 </form>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+    </tr>
     {% for asset in assets %}
-        <p>{{ asset.name }} {{ asset.symbol }}</p>
+        <tr>
+            <td>{{ asset.name }}</td>
+            <td>{{ asset.symbol }}</td>
+        </tr>
     {% endfor %}
+</table>
 </div>
 {% else %}
     <br> You must be logged in
