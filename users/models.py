@@ -1,11 +1,10 @@
 from django.conf import settings
+
 from django.db import models
 
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
-
-# send_mail(subject, message, from_email, recipient_list, html_message)
 
 DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
 
@@ -54,6 +53,8 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)  # staff user non superuser
     admin = models.BooleanField(default=False)  # superuser
     timestamp = models.DateTimeField(auto_now_add=True)
+    # confirm     = models.BooleanField(default=False)
+    # confirmed_date     = models.DateTimeField(default=False)
 
     USERNAME_FIELD = 'email'  # username
     # USERNAME_FIELD and password are required by default
@@ -79,6 +80,11 @@ class User(AbstractBaseUser):
         return True
 
     @property
+    def is_staff(self):
+        if self.is_admin:
+            return True
+        return self.staff
+
+    @property
     def is_admin(self):
         return self.admin
-

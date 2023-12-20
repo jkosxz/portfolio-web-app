@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Asset(models.Model):
@@ -14,10 +15,13 @@ class Investment(models.Model):
     name = models.CharField(max_length=100)
     symbol = models.ForeignKey(Asset, on_delete=models.CASCADE)
     amount = models.FloatField()
+    price_bought = models.FloatField()
     type = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, default="")
+
 
     def __str__(self):
-        return str(self.amount)
+        return str(self.name + " " + str(self.amount) + " " + str(self.price_bought))
 
 
 class Portfolio(models.Model):
@@ -35,4 +39,3 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
-
