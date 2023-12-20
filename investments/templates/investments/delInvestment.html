@@ -1,0 +1,21 @@
+{% extends 'investments/index.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Add Investment</h1>
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for investment in investments %}
+            <li><a href="{{ investment.name }}">{{ investment.amount }}</a></li>
+        {% endfor %}
+    </form>
+
+</div>
+{% else %}
+    <br> You must be logged in
+
+{% endif %}
+
+{% endblock %}

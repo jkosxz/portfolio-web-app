@@ -135,3 +135,16 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Project
+.venv
+.investments/__pycache__
+investments/secrets/*
+.idea
+investments/migrations/**
+users/migrations/**
+
+investments/__pycache__/**
+portfolioWebApp/__pycache__/**
+
+

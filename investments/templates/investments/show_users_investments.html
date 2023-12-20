@@ -1,0 +1,43 @@
+{% extends 'investments/index.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>All my investments</h1>
+<div>
+<br>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Delete</th>
+    </tr>
+    {% for investment in investments %}
+        <tr>
+            <td>{{ investment.id }}</td>
+            <td>{{ investment.name }}</td>
+            <td>{{ investment.symbol }}</td>
+            <td> <a href="/show_specific_investment?id={{ investment.id }}">Delete investment</a> </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+</div>
+{% else %}
+    <br> You must be logged in
+
+{% endif %}
+
+
+{% endblock %}

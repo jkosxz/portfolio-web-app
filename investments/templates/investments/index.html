@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_investment' %}">Add investment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'del_investment' %}">Delete investment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+        </li>
+        <li>
+            <a class="nav-link" href="{% url 'show_all_assets' %}">Show all assets</a>
+        </li>
+        <li>
+            <a class="nav-link" href="{% url 'show_users_investments' %}">Show my investments</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+        </li>
+
+      {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+{% block content %}
+
+{% endblock %}
+</html>
+
