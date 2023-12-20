@@ -17,13 +17,17 @@
 <br>
 <table>
     <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Symbol</th>
+        <th>Delete</th>
     </tr>
     {% for investment in investments %}
         <tr>
+            <td>{{ investment.id }}</td>
             <td>{{ investment.name }}</td>
             <td>{{ investment.symbol }}</td>
+            <td> <a href="/show_specific_investment?id={{ investment.id }}">Delete investment</a> </td>
         </tr>
     {% endfor %}
 </table>
