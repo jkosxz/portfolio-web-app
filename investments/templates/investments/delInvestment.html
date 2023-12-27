@@ -7,9 +7,7 @@
 <div>
     <form action="" method="POST">
         {% csrf_token %}
-        {% for investment in investments %}
-            <li><a href="{{ investment.name }}">{{ investment.amount }}</a></li>
-        {% endfor %}
+        <a>Item has been succesfuly deleted from your portfolio!</a>
     </form>
 
 </div>

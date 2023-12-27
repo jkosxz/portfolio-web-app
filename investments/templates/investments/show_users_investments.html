@@ -15,6 +15,10 @@
     <h1>All my investments</h1>
 <div>
 <br>
+<form action="/refresh_prices">
+    <button id="btn_refresh_prices" class="button">Refresh prices</button>
+</form>
+<br>
 <table>
     <tr>
         <th>ID</th>
@@ -22,14 +26,16 @@
         <th>Symbol</th>
         <th>Delete</th>
     </tr>
-    {% for investment in investments %}
+        {% for investment in investments %}
         <tr>
             <td>{{ investment.id }}</td>
             <td>{{ investment.name }}</td>
             <td>{{ investment.symbol }}</td>
-            <td> <a href="/show_specific_investment?id={{ investment.id }}">Delete investment</a> </td>
+            <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
+
+
 </table>
 
 
