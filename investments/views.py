@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Investment, Asset
-from investments.api_utils.api_fetcher import get_all_symbols
+from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
@@ -64,3 +64,8 @@ def show_users_investments(request):
 def show_specific_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
     return render(request, 'investments/investment.html', {'investment': investment})
+
+def refresh_prices(request):
+    get_current_prices(['AAPL', 'NVDA'])
+
+    return render(request, 'investments/index.html')
