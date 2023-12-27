@@ -22,14 +22,16 @@
         <th>Symbol</th>
         <th>Delete</th>
     </tr>
-    {% for investment in investments %}
+        {% for investment in investments %}
         <tr>
             <td>{{ investment.id }}</td>
             <td>{{ investment.name }}</td>
             <td>{{ investment.symbol }}</td>
-            <td> <a href="/show_specific_investment?id={{ investment.id }}">Delete investment</a> </td>
+            <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
+
+
 </table>
 
 

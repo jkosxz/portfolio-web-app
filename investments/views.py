@@ -7,10 +7,10 @@ from django.contrib.auth.models import User
 
 def insert_assets(request):
     assets = get_all_symbols()
-    assetsindb = Asset.objects.all()
+    assets_in_db = Asset.objects.all()
     records = []
     for asset in assets:
-        if asset in assetsindb:
+        if asset in assets_in_db:
             continue
         records.append(Asset(name=asset['description'], symbol=asset['symbol']))
     Asset.objects.bulk_create(records)
@@ -44,19 +44,10 @@ def add_investment(request):
 
 
 def del_investment(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        amount = request.POST['amount']
-        investment = Investment.objects.get(nazwa=name)
-        if investment.amount >= float(amount):
-            investment.amount -= float(amount)
-            investment.save()
-        else:
-            error_message = "Error"
-            return render(request, 'investments/delInvestment.html', {'error_message': error_message})
-        return redirect('index')
-
+    investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
+    investment.delete()
     return render(request, 'investments/delInvestment.html')
+
 
 def show_all_assets(request):
     assets = Asset.objects.all()
@@ -72,4 +63,4 @@ def show_users_investments(request):
 
 def show_specific_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
-    return render(request, 'investments/show_users_investments.html', {'investments': [investment]})
+    return render(request, 'investments/investment.html', {'investment': investment})
