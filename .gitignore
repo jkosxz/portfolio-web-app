@@ -141,8 +141,7 @@ GitHub.sublime-settings
 .investments/__pycache__
 investments/secrets/*
 .idea
-investments/migrations/**
-users/migrations/**
+
 
 investments/__pycache__/**
 portfolioWebApp/__pycache__/**

@@ -18,6 +18,7 @@ class Investment(models.Model):
     price_bought = models.FloatField()
     type = models.CharField(max_length=100)
     username = models.CharField(max_length=100, default="")
+    date_bought = models.DateField(default="2000-1-1")
 
     def __str__(self):
         return str(self.symbol)

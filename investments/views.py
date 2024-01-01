@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from .models import Investment, Asset
 from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
@@ -34,9 +36,10 @@ def add_investment(request):
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
+        date_bought = datetime.datetime.now()
 
         Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price,
-                                  type=type, username=request.user.username)
+                                  type=type, username=request.user.username, date_bought=date_bought)
         return redirect('index')
     return render(request, 'investments/addInvestment.html')
 
