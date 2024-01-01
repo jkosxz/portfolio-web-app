@@ -30,12 +30,10 @@ def index(request):
 def add_investment(request):
     if request.method == 'POST':
         name = request.POST['inv_name']
-        symbol = Asset.objects.get(symbol=request.POST['inv_symbol'])
+        symbol = Asset.objects.get(symbol=request.POST['inv_symbol']).symbol
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
-        print(request.user.username)
-        user = User.objects.get(username=request.user.username)
 
         Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price,
                                   type=type, username=request.user.username)
@@ -66,6 +64,7 @@ def show_specific_investment(request):
     return render(request, 'investments/investment.html', {'investment': investment})
 
 def refresh_prices(request):
-    get_current_prices(['AAPL', 'NVDA'])
+    for i in Asset.objects.all():
+        print(i)
 
     return render(request, 'investments/index.html')

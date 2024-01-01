@@ -8,7 +8,7 @@ class Asset(models.Model):
     last_fetched = models.DateField(default="2000-1-1")
 
     def __str__(self):
-        return str(self.name)
+        return str(self.symbol)
 
 
 class Investment(models.Model):
@@ -19,9 +19,11 @@ class Investment(models.Model):
     type = models.CharField(max_length=100)
     username = models.CharField(max_length=100, default="")
 
-
     def __str__(self):
-        return str(self.name + " " + str(self.amount) + " " + str(self.price_bought))
+        return str(self.symbol)
+
+    def get_symbol(self):
+        return str(self.symbol.symbol)
 
 
 class Portfolio(models.Model):
@@ -31,7 +33,7 @@ class Portfolio(models.Model):
     def __str__(self):
         return str(self.name)
 
-
+#?
 class Transaction(models.Model):
     name = models.CharField(max_length=100)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)

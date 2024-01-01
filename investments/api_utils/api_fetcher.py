@@ -23,8 +23,7 @@ def get_prices(array_of_symbols):  # format SYMBOL, current_PRICE
 def get_current_prices(array_of_symbols_and_prices):
     res = {}
     for item, values in array_of_symbols_and_prices.items():
-        for value in values:
-            res[item] = values['c']
+        res[item] = values['c']
     print(res)
 
 

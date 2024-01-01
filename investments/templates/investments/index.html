@@ -15,17 +15,14 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'add_investment' %}">Add investment</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'del_investment' %}">Delete investment</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+        <li>
+            <a class="nav-link" href="{% url 'show_users_investments' %}">Show my investments</a>
         </li>
         <li>
             <a class="nav-link" href="{% url 'show_all_assets' %}">Show all assets</a>
         </li>
-        <li>
-            <a class="nav-link" href="{% url 'show_users_investments' %}">Show my investments</a>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
         </li>
       {% else %}
         <li class="nav-item">
