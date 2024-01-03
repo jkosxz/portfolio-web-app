@@ -32,7 +32,7 @@ def index(request):
 def add_investment(request):
     if request.method == 'POST':
         name = request.POST['inv_name']
-        symbol = Asset.objects.get(symbol=request.POST['inv_symbol']).symbol
+        symbol = Asset.objects.get(symbol=request.POST['inv_symbol'])
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
@@ -58,16 +58,22 @@ def show_all_assets(request):
 
 def show_users_investments(request):
     investments = Investment.objects.filter(username=request.user.username)
+    users_assets = []
+    for investment in investments:
+        users_assets.append(investment.symbol)
 
-    return render(request, 'investments/show_users_investments.html', {'investments': investments})
+    return render(request, 'investments/show_users_investments.html', {'investments': investments, 'assets': users_assets})
 
 
 def show_specific_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
     return render(request, 'investments/investment.html', {'investment': investment})
 
+
 def refresh_prices(request):
-    for i in Asset.objects.all():
-        print(i)
+    users_investments = Investment.objects.filter(username=request.user)
+    users_assets = []
+    for investment in users_investments:
+        users_assets.append(investment.symbol)
 
     return render(request, 'investments/index.html')

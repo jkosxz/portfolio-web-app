@@ -16,11 +16,13 @@
     <tr>
         <th>Name</th>
         <th>Symbol</th>
+        <th>Current Price</th>
     </tr>
     {% for asset in assets %}
         <tr>
             <td>{{ asset.name }}</td>
             <td>{{ asset.symbol }}</td>
+            <td>{{ asset.current_price }}</td>
         </tr>
     {% endfor %}
 </table>

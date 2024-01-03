@@ -1,32 +1,30 @@
 {% extends 'investments/index.html' %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
-    <h1>Add Investment</h1>
-<div>
-    <form action="/add_investment" method="POST">
+  {% if user.is_authenticated %}
+    <div class="add-investment-container">
+      <h1>Add Investment</h1>
+      <form action="/add_investment" method="POST" class="investment-form">
         {% csrf_token %}
-        <label>
-            <br> Name
-            <input type="text" name="inv_name">
-            <br> Symbol
-            <input type="text" name="inv_symbol">
-            <br> Amount
-            <input type="number" name="inv_amount">
-            <br> Purchase price
-            <input type="number" name="inv_price">
-            <br>
-            <br> Type
-            <input type="text" name="inv_type">
-            <input type="submit" value="Submit" name="inv_submit">
-        </label>
-    </form>
+        <label for="inv_name">Name</label>
+        <input type="text" name="inv_name" id="inv_name" required>
 
-</div>
-{% else %}
-    <br> You must be logged in
+        <label for="inv_symbol">Symbol</label>
+        <input type="text" name="inv_symbol" id="inv_symbol" required>
 
-{% endif %}
+        <label for="inv_amount">Amount</label>
+        <input type="number" step="0.001" name="inv_amount" id="inv_amount" required>
 
+        <label for="inv_price">Purchase Price</label>
+        <input type="number" step="0.001" name="inv_price" id="inv_price" required>
+
+        <label for="inv_type">Type</label>
+        <input type="text" name="inv_type" id="inv_type" required>
+
+        <input type="submit" value="Submit" name="inv_submit">
+      </form>
+    </div>
+  {% else %}
+    <p class="login-message">You must be logged in to add an investment.</p>
+  {% endif %}
 {% endblock %}

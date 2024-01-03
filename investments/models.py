@@ -6,6 +6,7 @@ class Asset(models.Model):
     name = models.CharField(max_length=100)
     symbol = models.CharField(max_length=100)
     last_fetched = models.DateField(default="2000-1-1")
+    current_price = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.symbol)
@@ -16,15 +17,22 @@ class Investment(models.Model):
     symbol = models.ForeignKey(Asset, on_delete=models.CASCADE)
     amount = models.FloatField()
     price_bought = models.FloatField()
+    date_bought = models.DateField(default="2000-1-1")
     type = models.CharField(max_length=100)
     username = models.CharField(max_length=100, default="")
-    date_bought = models.DateField(default="2000-1-1")
 
     def __str__(self):
         return str(self.symbol)
 
-    def get_symbol(self):
-        return str(self.symbol.symbol)
+    @property
+    def get_current_price(self):
+        price = Asset.objects.get(symbol=self.symbol).current_price
+        return price
+
+    @property
+    def profit(self):
+        price = Asset.objects.get(symbol=self.symbol).current_price
+        return price - self.price_bought
 
 
 class Portfolio(models.Model):
@@ -34,7 +42,8 @@ class Portfolio(models.Model):
     def __str__(self):
         return str(self.name)
 
-#?
+
+# ?
 class Transaction(models.Model):
     name = models.CharField(max_length=100)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)

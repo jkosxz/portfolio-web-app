@@ -27,10 +27,14 @@
         <th>Delete</th>
     </tr>
        <tr>
-            <td>{{ investment.id }}</td>
-            <td>{{ investment.name }}</td>
-            <td>{{ investment.symbol }}</td>
-            <td> <a href="/del_investment?id={{ investment.id }}"> Delete investment </a> </td>
+           <td>{{ investment.id }}</td>
+           <td>{{ investment.name }}</td>
+           <td>{{ investment.symbol }}</td>
+           <td>{{ investment.price_bought }}</td>
+           <td>{{ investment.get_current_price }}</td>
+           <td>{{ investment.date_bought }}</td>
+           <td>{{ investment.profit }}</td>
+           <td> <a href="/del_investment?id={{ investment.id }}"> Delete investment </a> </td>
         </tr>
 
 
