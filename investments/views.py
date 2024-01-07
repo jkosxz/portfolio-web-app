@@ -7,6 +7,19 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 
+def refresh_prices(request):
+    users_investments = Investment.objects.filter(username=request.user)
+    users_assets = []
+    for asset in users_investments:
+        users_assets.append(asset.symbol)
+
+    current_prices = get_current_prices(users_assets)
+    for asset_name, current_price in current_prices.items():
+        asset = Asset.objects.get(symbol=asset_name)
+        setattr(asset, 'current_price', current_price)
+        asset.save()
+
+
 def insert_assets(request):
     assets = get_all_symbols()
     assets_in_db = Asset.objects.all()
@@ -57,23 +70,17 @@ def show_all_assets(request):
 
 
 def show_users_investments(request):
+    refresh_prices(request)
+
     investments = Investment.objects.filter(username=request.user.username)
     users_assets = []
     for investment in investments:
         users_assets.append(investment.symbol)
 
-    return render(request, 'investments/show_users_investments.html', {'investments': investments, 'assets': users_assets})
+    return render(request, 'investments/show_users_investments.html',
+                  {'investments': investments, 'assets': users_assets})
 
 
 def show_specific_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
     return render(request, 'investments/investment.html', {'investment': investment})
-
-
-def refresh_prices(request):
-    users_investments = Investment.objects.filter(username=request.user)
-    users_assets = []
-    for investment in users_investments:
-        users_assets.append(investment.symbol)
-
-    return render(request, 'investments/index.html')

@@ -14,11 +14,6 @@
 {% if user.is_authenticated %}
     <h1>All my investments</h1>
 <div>
-<br>
-<form action="/refresh_prices">
-    <button id="btn_refresh_prices" class="button">Refresh prices</button>
-</form>
-<br>
 <table>
     <tr>
         <th>ID</th>
@@ -34,8 +29,6 @@
             <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>
         </tr>
         {% endfor %}
-
-
 </table>
 
 </div>

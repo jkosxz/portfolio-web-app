@@ -100,7 +100,7 @@ celerybeat-schedule.*
 .env 
 .venv 
 env/ 
-venv/ 
+.venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
@@ -147,3 +147,4 @@ investments/__pycache__/**
 portfolioWebApp/__pycache__/**
 
 
+investments/api_utils/apikeys/*
