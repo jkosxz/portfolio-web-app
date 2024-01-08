@@ -23,3 +23,11 @@ def logout_user(request):
     logout(request)
 
     return redirect('/')
+
+
+def register_redirect(request):
+    return render(request, 'auth/register.html')
+
+
+def login_redirect(request):
+    return render(request, 'auth/login.html')
