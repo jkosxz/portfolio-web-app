@@ -61,21 +61,12 @@
     </style>
 </head>
 <body>
-    <form action="" method="post">
+    <form action={% url 'register_user' %} method=POST>
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required>
+        {{ form.as_table }}
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="repeat_password">Repeat password:</label>
-        <input type="password" id="repeat_password" name="repeat_password" required>
-
-        <button class="register-button" type="button">Register</button>
+        <button class="register-button" type="submit">Register</button>
     </form>
     <form action={% url 'login_redirect' %}>
         <button class="button">Login</button>
