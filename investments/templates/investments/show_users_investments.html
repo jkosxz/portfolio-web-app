@@ -1,4 +1,4 @@
-{% extends 'investments/index.html' %}
+{% extends 'investments/navbar.html' %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,14 +16,12 @@
 <div>
 <table>
     <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Symbol</th>
         <th>Delete</th>
     </tr>
         {% for investment in investments %}
         <tr>
-            <td>{{ investment.id }}</td>
             <td>{{ investment.name }}</td>
             <td>{{ investment.symbol }}</td>
             <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>

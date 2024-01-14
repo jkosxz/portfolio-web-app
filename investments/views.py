@@ -7,6 +7,18 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 
+def evaluate_users_investments(request):
+    users_investments = Investment.objects.filter(username=request.user.username)
+    if len(users_investments) == 0:
+        return None
+
+    res = 0
+    for investment in users_investments:
+        res += investment.get_current_price
+
+    return res/len(users_investments)
+
+
 def refresh_prices(request):
     users_investments = Investment.objects.filter(username=request.user)
     users_assets = []
@@ -38,8 +50,8 @@ def delete_assets(request):
 
 
 def index(request):
-    portfolio = Investment.objects.all()
-    return render(request, 'investments/index.html', {'portfolio': portfolio})
+    evaluation = evaluate_users_investments(request)
+    return render(request, 'investments/index.html', {'portfolio_evaluation': evaluation})
 
 
 def add_investment(request):
@@ -73,6 +85,7 @@ def show_users_investments(request):
     refresh_prices(request)
 
     investments = Investment.objects.filter(username=request.user.username)
+    print(request.user.username, investments)
     users_assets = []
     for investment in investments:
         users_assets.append(investment.symbol)
