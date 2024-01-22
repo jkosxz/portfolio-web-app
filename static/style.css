@@ -103,6 +103,14 @@ tr:hover {
   background-color: #ccffcc;
   border: 1px solid #66cc66;
   color: #006600;
-  width: 100px;
-  animation: cubic-bezier;
+  width: 120px;
+  height: 80px;
+  border-radius: 25px;
+  margin: revert;
+  text-align: justify-all;
+}
+
+.evaluation {
+    font-size: 70px;
+    color: green;
 }

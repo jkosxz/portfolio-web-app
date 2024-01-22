@@ -13,7 +13,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         try:
             login(request, user)
-            messages.add_message(request, messages.SUCCESS, 'You\'ve logged in')
+            messages.add_message(request, messages.SUCCESS, 'You\'ve successfully logged in')
             return redirect('index')
         except:
             messages.add_message(request, messages.ERROR, 'Error logging in')

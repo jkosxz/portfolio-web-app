@@ -15,7 +15,7 @@
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <a{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</a>
         {% endfor %}
     </ul>
     {% endif %}
@@ -23,7 +23,7 @@
     <div>
         <body>
             <p>Your portfolio evaluation</p>
-            {{ portfolio_evaluation }}
+            <a class="evaluation_plus">{{ portfolio_evaluation|floatformat:2 }}$</a>
         </body>
     </div>
     <section>
