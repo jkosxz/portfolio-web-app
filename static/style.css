@@ -97,3 +97,12 @@ tr:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+
+.success {
+  background-color: #ccffcc;
+  border: 1px solid #66cc66;
+  color: #006600;
+  width: 100px;
+  animation: cubic-bezier;
+}
