@@ -8,21 +8,19 @@
 <form action="/insert_assets">
     <button id="btn_insert_assets" class="button">Refresh assets</button>
 </form>
-<br>
-<form action="/delete_assets">
-    <button id="btn_insert_assets" class="button">Delete all assets</button>
-</form>
 <table>
     <tr>
         <th>Name</th>
         <th>Symbol</th>
         <th>Current Price</th>
+        <th>Show details</th>
     </tr>
     {% for asset in assets %}
         <tr>
             <td>{{ asset.name }}</td>
             <td>{{ asset.symbol }}</td>
             <td>{{ asset.current_price }}</td>
+            <td><a href="/asset?symbol={{ asset.symbol }}">Show details</a></td>
         </tr>
     {% endfor %}
 </table>

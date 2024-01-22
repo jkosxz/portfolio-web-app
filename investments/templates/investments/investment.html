@@ -22,16 +22,16 @@
         <th>Price bought</th>
         <th>Current price</th>
         <th>Date bought</th>
-        <th>Percentile of profit</th>
+        <th>Profit</th>
         <th>Delete</th>
     </tr>
        <tr>
            <td>{{ investment.name }}</td>
            <td>{{ investment.symbol }}</td>
-           <td>{{ investment.price_bought }}</td>
-           <td>{{ investment.get_current_price }}</td>
+           <td>{{ investment.price_bought|floatformat:2 }}$</td>
+           <td>{{ investment.get_current_price|floatformat:2 }}$</td>
            <td>{{ investment.date_bought }}</td>
-           <td>{{ investment.profit }}</td>
+           <td>{{ investment.profit|floatformat:2 }}$</td>
            <td> <a href="/del_investment?id={{ investment.id }}"> Delete investment </a> </td>
         </tr>
 

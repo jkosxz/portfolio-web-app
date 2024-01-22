@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch, mm
 
-from .models import Investment, Asset
+from .models import Investment, Asset, DeletedInvestment
 from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
 from django.http import HttpResponse, FileResponse
 from django.contrib.auth.models import User
@@ -26,6 +26,12 @@ def evaluate_users_investments(request):
         res += investment.get_current_price
 
     return res / len(users_investments)
+
+
+def refresh_price_of_asset(request, symbol):
+    asset = Asset.objects.get(symbol=symbol)
+    setattr(asset, 'current_price', get_current_prices([asset])[asset.symbol])
+    asset.save()
 
 
 def refresh_prices(request):
@@ -80,6 +86,13 @@ def add_investment(request):
 
 def del_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
+    deleted_investment = DeletedInvestment.objects.create(investment_username=investment.username,
+                                                          investment_name=investment.name, symbol_d=investment.symbol,
+                                                          price_bought=investment.get_current_price,
+                                                          price_when_deleted=investment.get_current_price,
+                                                          date_bought=investment.date_bought,
+                                                          date_deleted=datetime.now())
+    deleted_investment.save()
     investment.delete()
     return render(request, 'investments/delInvestment.html')
 
@@ -108,7 +121,14 @@ def show_specific_investment(request):
     return render(request, 'investments/investment.html', {'investment': investment})
 
 
-def save_to_pdf(request):
+def show_specific_asset(request):
+    asset = Asset.objects.get(symbol=request.GET.get('symbol', request.GET['symbol']))
+    refresh_price_of_asset(request, asset.symbol)
+
+    return render(request, 'investments/asset.html', {'asset': asset})
+
+
+def save_to_pdf_investments(request):
     enc = pdfencrypt.StandardEncryption("pass", canPrint=0)
     buf = io.BytesIO()
     c = canvas.Canvas(buf, encrypt=enc, bottomup=0)
@@ -135,3 +155,38 @@ def save_to_pdf(request):
     c.save()
     buf.seek(0)
     return FileResponse(buf, as_attachment=True, filename=f'{datetime.now()}.pdf')
+
+
+def save_to_pdf_history(request):
+    enc = pdfencrypt.StandardEncryption("pass", canPrint=0)
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, encrypt=enc, bottomup=0)
+    width, height = letter
+    lines = []
+    investments = DeletedInvestment.objects.filter(investment_username=request.user.username)
+    for investment in investments:
+        lines.append((investment.investment_name, investment.symbol_d, round(investment.price_bought), round(investment.price_when_deleted, 2),
+                      investment.date_bought, investment.date_deleted))
+    lines.append(("Name", "Symbol", "Price when bought", "Price when deleted", "Date bought", "Date deleted"))
+    table = Table(lines, colWidths=36 * mm)
+    table.setStyle(TableStyle([
+        ('SIZE', (0, 0), (-1, -1), 7),
+        ('SIZE', (0, 0), (0, 0), 5.5),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+    ]))
+
+    table.wrapOn(c, width, height)
+    table.drawOn(c, 0 * mm, 5 * mm)
+
+    c.save()
+    buf.seek(0)
+    return FileResponse(buf, as_attachment=True, filename=f'history-{datetime.now()}.pdf')
+
+
+def show_users_history(request):
+    users_deleted_investment = DeletedInvestment.objects.filter(investment_username=request.user.username)
+    return render(request, 'investments/users_investment_history.html',
+                  {'deleted_investments': users_deleted_investment})

@@ -1,0 +1,49 @@
+{% extends 'investments/navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>My portfolio's history</h1>
+<div>
+<form action={% url 'convert_to_pdf_history' %}>
+    <button id="btn_pdf_convert" class="button">Convert to PDF</button>
+</form>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price Bought</th>
+        <th>Price when deleted</th>
+        <th>Date bought</th>
+        <th>Date deleted</th>
+    </tr>
+        {% for investment in deleted_investments %}
+        <tr>
+            <td>{{ investment.investment_name }}</td>
+            <td>{{ investment.symbol_d }}</td>
+            <td>{{ investment.price_bought|floatformat:2 }}$</td>
+            <td>{{ investment.price_when_deleted|floatformat:2 }}$</td>
+            <td>{{ investment.date_bought }}</td>
+            <td>{{ investment.date_deleted }}</td>
+            <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>
+        </tr>
+        {% endfor %}
+</table>
+
+</div>
+{% else %}
+    <br> You must be logged in
+
+{% endif %}
+
+
+{% endblock %}
