@@ -13,3 +13,7 @@ certifi~=2023.11.17
 six~=1.16.0
 idna~=3.6
 urllib3~=2.1.0
+reportlab~=4.0.9
+pillow~=10.2.0
+matplotlib~=3.8.2
+chardet~=5.2.0

@@ -14,5 +14,6 @@ urlpatterns = [
     path('show_users_investments', views.show_users_investments, name='show_users_investments'),
     path('investment', views.show_specific_investment, name='investment'),
 
-    path('refresh_prices', views.refresh_prices, name='refresh_prices')
+    path('refresh_prices', views.refresh_prices, name='refresh_prices'),
+    path('convert_to_pdf', views.save_to_pdf, name='convert_to_pdf')
 ]

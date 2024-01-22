@@ -1,10 +1,19 @@
 import datetime
 
 from django.shortcuts import render, redirect
+from reportlab.lib import pdfencrypt, colors
+from reportlab.lib.pagesizes import A4, letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch, mm
+
 from .models import Investment, Asset
 from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.contrib.auth.models import User
+from reportlab.pdfgen import canvas
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+import io
+from datetime import datetime
 
 
 def evaluate_users_investments(request):
@@ -16,7 +25,7 @@ def evaluate_users_investments(request):
     for investment in users_investments:
         res += investment.get_current_price
 
-    return res/len(users_investments)
+    return res / len(users_investments)
 
 
 def refresh_prices(request):
@@ -61,7 +70,7 @@ def add_investment(request):
         amount = request.POST['inv_amount']
         price = request.POST['inv_price']
         type = request.POST['inv_type']
-        date_bought = datetime.datetime.now()
+        date_bought = datetime.now()
 
         Investment.objects.create(name=name, symbol=symbol, amount=amount, price_bought=price,
                                   type=type, username=request.user.username, date_bought=date_bought)
@@ -97,3 +106,32 @@ def show_users_investments(request):
 def show_specific_investment(request):
     investment = Investment.objects.get(id=request.GET.get('id', request.GET['id']))
     return render(request, 'investments/investment.html', {'investment': investment})
+
+
+def save_to_pdf(request):
+    enc = pdfencrypt.StandardEncryption("pass", canPrint=0)
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, encrypt=enc, bottomup=0)
+    width, height = letter
+    lines = []
+    investments = Investment.objects.filter(username=request.user.username)
+    for investment in investments:
+        lines.append((investment.name, investment.symbol, investment.get_current_price, investment.profit,
+                      investment.date_bought))
+    lines.append(("Name", "Symbol", "Current Price", "Profit", "Date bought"))
+    table = Table(lines, colWidths=43 * mm)
+    table.setStyle(TableStyle([
+        ('SIZE', (0, 0), (-1, -1), 7),
+        ('SIZE', (0, 0), (0, 0), 5.5),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+    ]))
+
+    table.wrapOn(c, width, height)
+    table.drawOn(c, 0 * mm, 5 * mm)
+
+    c.save()
+    buf.seek(0)
+    return FileResponse(buf, as_attachment=True, filename=f'{datetime.now()}.pdf')

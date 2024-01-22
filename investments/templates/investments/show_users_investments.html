@@ -14,6 +14,9 @@
 {% if user.is_authenticated %}
     <h1>All my investments</h1>
 <div>
+<form action={% url 'convert_to_pdf' %}>
+    <button id="btn_pdf_convert" class="button">Convert to PDF</button>
+</form>
 <table>
     <tr>
         <th>Name</th>
