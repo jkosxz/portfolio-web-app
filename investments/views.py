@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch, mm
 
-from .models import Investment, Asset, DeletedInvestment
+from .models import Investment, Asset, DeletedInvestment, FavouriteUsersAsset
 from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
 from django.http import HttpResponse, FileResponse
 from django.contrib.auth.models import User
@@ -66,7 +66,9 @@ def delete_assets(request):
 
 def index(request):
     evaluation = evaluate_users_investments(request)
-    return render(request, 'investments/index.html', {'portfolio_evaluation': evaluation})
+    fav_assets = FavouriteUsersAsset.objects.filter(username=request.user.username)
+    return render(request, 'investments/index.html', {'portfolio_evaluation': evaluation,
+                                                      'fav_assets': fav_assets})
 
 
 def add_investment(request):
@@ -125,7 +127,13 @@ def show_specific_asset(request):
     asset = Asset.objects.get(symbol=request.GET.get('symbol', request.GET['symbol']))
     refresh_price_of_asset(request, asset.symbol)
 
-    return render(request, 'investments/asset.html', {'asset': asset})
+    try:
+        fav_asset = FavouriteUsersAsset.objects.get(username=request.user.username, symbol=asset.symbol)
+    except:
+        fav_asset = False
+
+    return render(request, 'investments/asset.html', {'asset': asset,
+                                                      'is_fav': fav_asset})
 
 
 def save_to_pdf_investments(request):
@@ -165,7 +173,8 @@ def save_to_pdf_history(request):
     lines = []
     investments = DeletedInvestment.objects.filter(investment_username=request.user.username)
     for investment in investments:
-        lines.append((investment.investment_name, investment.symbol_d, round(investment.price_bought), round(investment.price_when_deleted, 2),
+        lines.append((investment.investment_name, investment.symbol_d, round(investment.price_bought),
+                      round(investment.price_when_deleted, 2),
                       investment.date_bought, investment.date_deleted))
     lines.append(("Name", "Symbol", "Price when bought", "Price when deleted", "Date bought", "Date deleted"))
     table = Table(lines, colWidths=36 * mm)
@@ -190,3 +199,15 @@ def show_users_history(request):
     users_deleted_investment = DeletedInvestment.objects.filter(investment_username=request.user.username)
     return render(request, 'investments/users_investment_history.html',
                   {'deleted_investments': users_deleted_investment})
+
+
+def add_favourite_asset(request):
+    new_fav = FavouriteUsersAsset.objects.create(username=request.user.username,
+                                                 symbol=request.GET['symbol'])
+    new_fav.save()
+
+
+def delete_favourite_asset(request):
+    del_fav = FavouriteUsersAsset.objects.get(username=request.user.username,
+                                              symbol=request.GET['symbol'])
+    del_fav.delete()

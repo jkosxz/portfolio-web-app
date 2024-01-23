@@ -66,3 +66,7 @@ class DeletedInvestment(models.Model):
     def __str__(self):
         return f'Deleted {self.investment_name}'
 
+
+class FavouriteUsersAsset(models.Model):
+    username = models.CharField(max_length=100, default='')
+    symbol = models.ForeignKey(Asset, default=None, on_delete=models.CASCADE)

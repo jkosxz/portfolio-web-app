@@ -17,6 +17,8 @@ urlpatterns = [
     path('refresh_prices', views.refresh_prices, name='refresh_prices'),
     path('convert_to_pdf', views.save_to_pdf_investments, name='convert_to_pdf'),
     path('convert_to_pdf_history', views.save_to_pdf_history, name='convert_to_pdf_history'),
+    path('add_favourite_asset', views.add_favourite_asset, name='add_favourite_asset'),
+    path('delete_favourite_asset', views.delete_favourite_asset, name='delete_favourite_asset'),
 
     # single Jinja generated templates
     path('investment', views.show_specific_investment, name='investment'),

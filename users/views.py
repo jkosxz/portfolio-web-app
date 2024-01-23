@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm
+from investments.models import FavouriteUsersAsset
 
 
 def login_user(request):
