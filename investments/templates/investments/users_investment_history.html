@@ -34,7 +34,7 @@
             <td>{{ investment.price_when_deleted|floatformat:2 }}$</td>
             <td>{{ investment.date_bought }}</td>
             <td>{{ investment.date_deleted }}</td>
-            <td> <a href="/investment?id={{ investment.id }}"> Show details </a> </td>
+            <td> <a href="/asset?symbol={{ investment.symbol_d }}"> Show asset's details </a> </td>
         </tr>
         {% endfor %}
 </table>

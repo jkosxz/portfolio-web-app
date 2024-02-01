@@ -124,7 +124,7 @@ def show_specific_investment(request):
 
 
 def show_specific_asset(request):
-    asset = Asset.objects.get(symbol=request.GET.get('symbol', request.GET['symbol']))
+    asset = Asset.objects.get(symbol=request.GET['symbol'])
     refresh_price_of_asset(request, asset.symbol)
 
     try:
@@ -202,12 +202,8 @@ def show_users_history(request):
 
 
 def add_favourite_asset(request):
-    new_fav = FavouriteUsersAsset.objects.create(username=request.user.username,
-                                                 symbol=request.GET['symbol'])
-    new_fav.save()
+    pass
 
 
 def delete_favourite_asset(request):
-    del_fav = FavouriteUsersAsset.objects.get(username=request.user.username,
-                                              symbol=request.GET['symbol'])
-    del_fav.delete()
+    pass
