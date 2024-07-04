@@ -21,6 +21,7 @@
         <th>Symbol</th>
         <th>Price bought</th>
         <th>Current price</th>
+        <th>Amount</th>
         <th>Date bought</th>
         <th>Profit</th>
         <th>Delete</th>
@@ -30,6 +31,7 @@
            <td>{{ investment.symbol }}</td>
            <td>{{ investment.price_bought|floatformat:2 }}$</td>
            <td>{{ investment.get_current_price|floatformat:2 }}$</td>
+           <td>{{ investment.amount|floatformat:0 }} </td>
            <td>{{ investment.date_bought }}</td>
            <td>{{ investment.profit|floatformat:2 }}$</td>
            <td> <a href="/del_investment?id={{ investment.id }}"> Delete investment </a> </td>

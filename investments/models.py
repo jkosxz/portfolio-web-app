@@ -31,7 +31,7 @@ class Investment(models.Model):
 
     @property
     def profit(self):
-        price = Asset.objects.get(symbol=self.symbol).current_price
+        price = Asset.objects.get(symbol=self.symbol).current_price * self.amount
         return price - self.price_bought
 
 

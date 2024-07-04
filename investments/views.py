@@ -137,16 +137,15 @@ def show_specific_asset(request):
 
 
 def save_to_pdf_investments(request):
-    enc = pdfencrypt.StandardEncryption("pass", canPrint=0)
     buf = io.BytesIO()
-    c = canvas.Canvas(buf, encrypt=enc, bottomup=0)
+    c = canvas.Canvas(buf, bottomup=0)
     width, height = letter
     lines = []
     investments = Investment.objects.filter(username=request.user.username)
     for investment in investments:
-        lines.append((investment.name, investment.symbol, investment.get_current_price, investment.profit,
+        lines.append((investment.name, investment.symbol, round(investment.get_current_price, 2), round(investment.profit, 2),
                       investment.date_bought))
-    lines.append(("Name", "Symbol", "Current Price", "Profit", "Date bought"))
+    lines.append(("Name", "Symbol", "Current Price ($)", "Profit ($)", "Date bought"))
     table = Table(lines, colWidths=43 * mm)
     table.setStyle(TableStyle([
         ('SIZE', (0, 0), (-1, -1), 7),
@@ -166,9 +165,8 @@ def save_to_pdf_investments(request):
 
 
 def save_to_pdf_history(request):
-    enc = pdfencrypt.StandardEncryption("pass", canPrint=0)
     buf = io.BytesIO()
-    c = canvas.Canvas(buf, encrypt=enc, bottomup=0)
+    c = canvas.Canvas(buf, bottomup=0)
     width, height = letter
     lines = []
     investments = DeletedInvestment.objects.filter(investment_username=request.user.username)
@@ -176,7 +174,7 @@ def save_to_pdf_history(request):
         lines.append((investment.investment_name, investment.symbol_d, round(investment.price_bought),
                       round(investment.price_when_deleted, 2),
                       investment.date_bought, investment.date_deleted))
-    lines.append(("Name", "Symbol", "Price when bought", "Price when deleted", "Date bought", "Date deleted"))
+    lines.append(("Name", "Symbol", "Price when bought ($)", "Price when deleted ($)", "Date bought", "Date deleted"))
     table = Table(lines, colWidths=36 * mm)
     table.setStyle(TableStyle([
         ('SIZE', (0, 0), (-1, -1), 7),
