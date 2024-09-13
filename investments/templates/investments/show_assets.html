@@ -33,13 +33,6 @@ function search() {
 }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<style type="text/css">
-		#container{
-			overflow: scroll;
-			max-height: 500px;
-			border: 2px solid;
-		}
-	</style>
 <table id="asset_table">
     <tr>
         <th>Name</th>
@@ -47,7 +40,7 @@ function search() {
         <th>Current Price</th>
         <th>Show details</th>
     </tr>
-    {% for asset in assets %}
+      {% for asset in assets %}
         <tr>
             <td>{{ asset.name }}</td>
             <td>{{ asset.symbol }}</td>
