@@ -23,7 +23,7 @@
     {% if portfolio_evaluation >= 0 %}
     <div>
         <body>
-            <p>Your portfolio evaluation</p>
+            <p>Your portfolio profit evaluation</p>
             <a class="evaluation">{{ portfolio_evaluation|floatformat:2 }}$</a>
         </body>
     {% endif %}
@@ -53,7 +53,7 @@
 
 
 {% else %}
-    <p>You are not authenticated</p>
+    <p style="text-align:center">You are not authenticated, please login or register</p>
 {% endif %}
 
 

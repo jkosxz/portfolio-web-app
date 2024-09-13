@@ -8,9 +8,9 @@
 <form action="/insert_assets">
     <button id="btn_insert_assets" class="button">Refresh assets</button>
 </form>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+<input type="text" id="myInput" onkeyup="search()" placeholder="Search for names..">
 <script>
-function myFunction() {
+function search() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");

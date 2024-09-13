@@ -23,7 +23,7 @@ def evaluate_users_investments(request):
 
     res = 0
     for investment in users_investments:
-        res += investment.get_current_price
+        res += investment.profit
 
     return res / len(users_investments)
 
