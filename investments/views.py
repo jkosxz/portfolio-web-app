@@ -7,7 +7,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch, mm
 
 from .models import Investment, Asset, DeletedInvestment, FavouriteUsersAsset
-from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices
+from investments.api_utils.api_fetcher import get_all_symbols, get_prices, get_current_prices, get_all_crypto
 from django.http import HttpResponse, FileResponse
 from django.contrib.auth.models import User
 from reportlab.pdfgen import canvas
@@ -207,3 +207,7 @@ def add_favourite_asset(request):
 
 def delete_favourite_asset(request):
     pass
+
+def get_all_crypto(request):
+    print(123)
+    return ""

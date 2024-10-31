@@ -22,6 +22,7 @@ urlpatterns = [
 
     # single Jinja generated templates
     path('investment', views.show_specific_investment, name='investment'),
-    path('asset', views.show_specific_asset, name='asset')
+    path('asset', views.show_specific_asset, name='asset'),
+    path('get_all_crypto', views.get_all_crypto, name="get_all_crypto")
 
 ]
