@@ -147,4 +147,4 @@ investments/__pycache__/**
 portfolioWebApp/__pycache__/**
 
 
-investments/api_utils/apikeys/*
+investments/api_utils/apikeys/**
